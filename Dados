@@ -1,0 +1,20 @@
+import random
+import time
+
+def lanzar_dados():
+    dado1 = random.randint(1, 6)
+    dado2 = random.randint(1, 6)
+    return dado1, dado2
+
+def mostrar_dados(d1, d2):
+    print("🎲 Lanzando dados...")
+    time.sleep(1)
+    print(f"Dado 1: {d1}")
+    print(f"Dado 2: {d2}")
+    print(f"Suma: {d1 + d2}")
+
+# Simulación de 3 lanzamientos para probar
+for turno in range(1, 4):
+    print(f"\nTurno {turno}")
+    d1, d2 = lanzar_dados()
+    mostrar_dados(d1, d2)
