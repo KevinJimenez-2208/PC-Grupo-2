@@ -18,3 +18,6 @@ for turno in range(1, 4):
     print(f"\nTurno {turno}")
     d1, d2 = lanzar_dados()
     mostrar_dados(d1, d2)
+
+print("\nFin de la simulación de lanzamientos de dados.") #probandoeditorenvisual
+
