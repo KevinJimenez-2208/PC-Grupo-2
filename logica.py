@@ -88,11 +88,25 @@ def verificar_bloqueo(posicion):
     return len(casillas[posicion]) >= 2
 
 
-def turno_jugador(jugador, jugadores, pares_seguidos, ultima_ficha_movida):  # Se pasan variables necesarias
+def turno_jugador(jugador, jugadores, pares_seguidos, ultima_ficha_movida, modo_desarrollador):  # Se pasan variables necesarias
     print(f"\nTurno de {jugador.color}")
     jugador.mostrar_fichas()
+
     input("Presiona ENTER para tirar el dado...")
-    dado = tirar_dado()
+
+    if modo_desarrollador:
+        while True:
+            try:
+                dado = int(input("Introduce el valor del dado (1-6): "))
+                if 1 <= dado <= 6:
+                    break
+                else:
+                    print("Valor inválido. Ingresa un número entre 1 y 6.")
+            except ValueError:
+                print("Entrada no válida. Debes ingresar un número.")
+    else:
+        dado = tirar_dado()
+
     print(f"{jugador.color} sacó: {dado}")
 
     if dado % 2 == 0:
@@ -120,7 +134,7 @@ def turno_jugador(jugador, jugadores, pares_seguidos, ultima_ficha_movida):  # S
     if pares_seguidos[jugador.color] >= 3:
         print(f"{jugador.color} sacó tres pares seguidos. Su última ficha movida regresa a la casa.")
         ficha_penalizada = ultima_ficha_movida[jugador.color]
-        if ficha_penalizada:
+        if ficha_penalizada and ficha_penalizada.posicion != -1:
             casillas[ficha_penalizada.posicion].remove(ficha_penalizada)
             ficha_penalizada.posicion = -1
         pares_seguidos[jugador.color] = 0
@@ -135,9 +149,13 @@ def main():
     pares_seguidos = {jug.color: 0 for jug in jugadores}  # lleva la cuenta por jugador para saber si van 3 pares
     ultima_ficha_movida = {jug.color: None for jug in jugadores}
 
+    print("Selecciona modo de juego: 1 para Real, 2 para Desarrollador")
+    modo = input("Modo: ")
+    modo_desarrollador = modo == '2'
+
     while True:
         jugador = jugadores[turno % len(jugadores)]
-        repetir_turno = turno_jugador(jugador, jugadores, pares_seguidos, ultima_ficha_movida)
+        repetir_turno = turno_jugador(jugador, jugadores, pares_seguidos, ultima_ficha_movida, modo_desarrollador)
 
         if jugador.ha_ganado():
             print(f"\n¡El jugador {jugador.color} ha ganado!")
@@ -160,5 +178,4 @@ if __name__ == "__main__":
     # 6. Se añadió el bonus de 20 pasos en la línea 68
     # 7. Se añade bonus 10 pasos dentro de def mover(self, pasos) para llegada a la meta
     # 8. Se añade penalización por 3 pares seguidos
-
-
+    # 9. Se implementa modo desarrollador con control del valor del dado ingresado
