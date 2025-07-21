@@ -22,10 +22,14 @@ img_marte = pygame.image.load('Marte.png')
 img_tierra = pygame.image.load('Tierra.png')
 img_nept = pygame.image.load('Neptuno.png')
 img_sol = pygame.image.load('Sol.png')
+img_navrojo = pygame.image.load('Nave Roja.png')
+img_navazul = pygame.image.load('Nave Azul.png')
+img_navamarillo = pygame.image.load('Nave Amarilla.png')
+img_navverde = pygame.image.load('Nave Verde.png')
 
 #tamaños
 g1 = 780 #Tamaño pestaña
-c1 = 260 #Casillas de hogar
+c1 = 245 #Casillas de hogar
 c2 = 25 #Radio borde Casillas de hogar
 c2_1 = int(c2+c2/4) #Radio borde tablero
 c3 = 25 #Margen tablero
@@ -33,8 +37,10 @@ c4 = 40 #Ancho borde casilla juego
 c4_1 = 6  #Borde tablero
 c4_2 = 5 #Borde casilla juego
 c5 = 10 #Ancho limite derecho zona tablero
-img1 = 175 #Tamaño foto de centro
+img1 = 180 #Tamaño foto de centro
 img2 = 160 #Tamaño fotos hogar
+f1 = 90 #Alto ficha
+f2 = 49 #Ancho ficha
 
 running = True
 
@@ -156,6 +162,28 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+    #Fichas
+    img_navrojo2 = pygame.transform.scale(img_navrojo, (f2, f1))
+    img_navazul2 = pygame.transform.scale(img_navazul, (f2, f1))
+    img_navamarillo2 = pygame.transform.scale(img_navamarillo, (f2, f1))
+    img_navverde2 = pygame.transform.scale(img_navverde, (f2, f1))
+    screen.blit(img_navrojo2,(c3+c1/3-f2/2,c3+c1/3-f1/2)) #Nave Roja
+    screen.blit(img_navrojo2,(c3+2*c1/3-f2/2,c3+c1/3-f1/2)) #Nave Roja
+    screen.blit(img_navrojo2,(c3+c1/3-f2/2,c3+2*c1/3-f1/2)) #Nave Roja
+    screen.blit(img_navrojo2,(c3+2*c1/3-f2/2,c3+2*c1/3-f1/2)) #Nave Roja
+    screen.blit(img_navazul2,(c1+x+c3+c1/3-f2/2,c3+c1/3-f1/2)) #Nave Azul
+    screen.blit(img_navazul2,(c1+x+c3+2*c1/3-f2/2,c3+c1/3-f1/2)) #Nave Azul
+    screen.blit(img_navazul2,(c1+x+c3+c1/3-f2/2,c3+2*c1/3-f1/2)) #Nave Azul
+    screen.blit(img_navazul2,(c1+x+c3+2*c1/3-f2/2,c3+2*c1/3-f1/2)) #Nave Azul
+    screen.blit(img_navamarillo2,(c1+x+c3+c1/3-f2/2,c1+x+c3+c1/3-f1/2)) #Nave Amarilla 
+    screen.blit(img_navamarillo2,(c1+x+c3+2*c1/3-f2/2,c1+x+c3+c1/3-f1/2)) #Nave Amarilla
+    screen.blit(img_navamarillo2,(c1+x+c3+c1/3-f2/2,c1+x+c3+2*c1/3-f1/2)) #Nave Amarilla
+    screen.blit(img_navamarillo2,(c1+x+c3+2*c1/3-f2/2,c1+x+c3+2*c1/3-f1/2)) #Nave Amarilla
+    screen.blit(img_navverde2,(c3+c1/3-f2/2,c1+x+c3+c1/3-f1/2)) #Nave Verde
+    screen.blit(img_navverde2,(c3+2*c1/3-f2/2,c1+x+c3+c1/3-f1/2)) #Nave Verde
+    screen.blit(img_navverde2,(c3+c1/3-f2/2,c1+x+c3+2*c1/3-f1/2)) #Nave Verde
+    screen.blit(img_navverde2,(c3+2*c1/3-f2/2,c1+x+c3+2*c1/3-f1/2)) #Nave Verde                              
     
     pygame.display.flip()
     clock.tick(60)
