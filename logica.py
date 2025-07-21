@@ -1,10 +1,10 @@
 import random
+
 # Tablero
 # Modificación del tablero para incluir 68 casillas y zonas seguras
 casillas = [[] for _ in range(68)]  # 68 casillas vacías al inicio
 
-Zonas_Seguras = [5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63, 68]
-
+Zonas_Seguras = [5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63]  # se eliminó 68 que está fuera de rango
 
 # Clases principales
 class Ficha:
@@ -41,8 +41,13 @@ class Ficha:
             casillas[self.posicion].append(self)
             print(f"{self.color} avanzó a la casilla {self.posicion}.")
 
+        # Después de mover:
+        if self.en_meta():
+            print(f"¡{self.color} llegó a la meta! Avanza 10 pasos extra.")
+            self.mover(10)
+
     def en_meta(self):
-        return self.posicion >= 68
+        return self.posicion == 67  # La casilla 67 es la última
 
 
 class Jugador:
@@ -65,6 +70,8 @@ class Jugador:
                     if ficha.posicion == ficha_mia.posicion and ficha.posicion != -1:
                         print(f"¡{self.color} capturó una ficha de {otro.color}!")
                         ficha.posicion = -1  # Manda ficha a casa
+                        ficha_mia.mover(20)  # BONUS de 20 pasos
+                        return  # Solo se captura una ficha por turno
 
     def ha_ganado(self):
         return all(f.en_meta() for f in self.fichas)
@@ -81,19 +88,24 @@ def verificar_bloqueo(posicion):
     return len(casillas[posicion]) >= 2
 
 
-def turno_jugador(jugador, jugadores):  # Cambiado para incluir la lista completa de jugadores
+def turno_jugador(jugador, jugadores, pares_seguidos, ultima_ficha_movida):  # Se pasan variables necesarias
     print(f"\nTurno de {jugador.color}")
     jugador.mostrar_fichas()
     input("Presiona ENTER para tirar el dado...")
     dado = tirar_dado()
     print(f"{jugador.color} sacó: {dado}")
 
+    if dado % 2 == 0:
+        pares_seguidos[jugador.color] += 1
+    else:
+        pares_seguidos[jugador.color] = 0
+
     opciones = [i for i, f in enumerate(jugador.fichas)
                 if f.posicion != -1 or dado == 5]
 
     if not opciones:
         print("No puedes mover ninguna ficha.")
-        return
+        return False  # No repite turno
 
     print("Elige ficha a mover:")
     for fic in opciones:
@@ -101,32 +113,52 @@ def turno_jugador(jugador, jugadores):  # Cambiado para incluir la lista complet
 
     eleccion = int(input("Ficha a mover: ")) - 1
     jugador.fichas[eleccion].mover(dado)
-    jugador.capturar(jugador.fichas[eleccion], jugadores)  # Aquí se pasa la lista completa de jugadores
+    ultima_ficha_movida[jugador.color] = jugador.fichas[eleccion]
+    jugador.capturar(jugador.fichas[eleccion], jugadores)
+
+    # Penalización por 3 pares seguidos
+    if pares_seguidos[jugador.color] >= 3:
+        print(f"{jugador.color} sacó tres pares seguidos. Su última ficha movida regresa a la casa.")
+        ficha_penalizada = ultima_ficha_movida[jugador.color]
+        if ficha_penalizada:
+            casillas[ficha_penalizada.posicion].remove(ficha_penalizada)
+            ficha_penalizada.posicion = -1
+        pares_seguidos[jugador.color] = 0
+
+    return dado % 2 == 0  # Repite turno si fue par
 
 
 # Bucle principal
 def main():
     jugadores = [Jugador("Rojo"), Jugador("Azul"), Jugador("Amarillo"), Jugador("Verde")]
     turno = 0
+    pares_seguidos = {jug.color: 0 for jug in jugadores}  # lleva la cuenta por jugador para saber si van 3 pares
+    ultima_ficha_movida = {jug.color: None for jug in jugadores}
 
     while True:
         jugador = jugadores[turno % len(jugadores)]
-        turno_jugador(jugador, jugadores)
+        repetir_turno = turno_jugador(jugador, jugadores, pares_seguidos, ultima_ficha_movida)
 
         if jugador.ha_ganado():
             print(f"\n¡El jugador {jugador.color} ha ganado!")
             break
 
-        turno += 1
+        if not repetir_turno:
+            turno += 1
 
 
 if __name__ == "__main__":
     main()
 
-    #Estado actual
-    #Se añadió la lista de casillas para definir en qié casilla va cada ficha
-    # 1.Solo se saca ficha si sale 5
-    #2. Las fichas pueden ser capturadas
-    #3. Deberian respetarse las zonas seguras(no comprobado)
-    #4. Bloqueos en el tablero (no comprobado)
-    #5. Condiciones de victoria 
+    # Estado actual
+    # Se añadió la lista de casillas para definir en qué casilla va cada ficha
+    # 1. Solo se saca ficha si sale 5
+    # 2. Las fichas pueden ser capturadas
+    # 3. Deberían respetarse las zonas seguras (no comprobado)
+    # 4. Bloqueos en el tablero (no comprobado)
+    # 5. Condiciones de victoria
+    # 6. Se añadió el bonus de 20 pasos en la línea 68
+    # 7. Se añade bonus 10 pasos dentro de def mover(self, pasos) para llegada a la meta
+    # 8. Se añade penalización por 3 pares seguidos
+
+
