@@ -82,22 +82,42 @@ while running:
                pygame.draw.rect(screen, Bla_Roj, (c3+(i*c1/7)+(x+c1)*i3,c3+c1+i2*x2, c1/7 ,x1),0,0,0,0,0)
                pygame.draw.rect(screen, Gris1, (c3+(i*c1/7)+(x+c1)*i3, c3+c1+i2*x2, c1/7, x1),c4_2,0,0,0,0) 
     #Casillas Diagonales
+        #Diagonales rojas
     pygame.draw.polygon(screen, Bla_Roj, ([c3+c1,c3+c1],[c2+c1,c3+c1+x1],[c3+c1+x1,c3+c1+x1]),0)  
-    pygame.draw.polygon(screen, Gris1, ([c3+c1,c3+c1],[c2+c1,c3+c1+x1],[c3+c1+x1,c3+c1+x1]),c4_2)             
+    pygame.draw.polygon(screen, Gris1, ([c3+c1,c3+c1],[c2+c1,c3+c1+x1],[c3+c1+x1,c3+c1+x1]),c4_2*2)    
+    pygame.draw.polygon(screen, Bla_Roj, ([c3+c1,c3+c1],[c2+c1+x1,c3+c1],[c3+c1+x1,c3+c1+x1]),0)  
+    pygame.draw.polygon(screen, Gris1, ([c3+c1,c3+c1],[c2+c1+x1,c3+c1],[c3+c1+x1,c3+c1+x1]),c4_2*2)  
+        #Diagonales azules
+    pygame.draw.polygon(screen, Bla_Roj, ([g1-1-(c3+c1),c3+c1],[g1-1-(c2+c1),c3+c1+x1],[g1-1-(c3+c1+x1),c3+c1+x1]),0)  
+    pygame.draw.polygon(screen, Gris1, ([g1-1-(c3+c1),c3+c1],[g1-1-(c2+c1),c3+c1+x1],[g1-1-(c3+c1+x1),c3+c1+x1]),c4_2*2)    
+    pygame.draw.polygon(screen, Bla_Roj, ([g1-1-(c3+c1),c3+c1],[g1-1-(c2+c1+x1),c3+c1],[g1-1-(c3+c1+x1),c3+c1+x1]),0)  
+    pygame.draw.polygon(screen, Gris1, ([g1-1-(c3+c1),c3+c1],[g1-1-(c2+c1+x1),c3+c1],[g1-1-(c3+c1+x1),c3+c1+x1]),c4_2*2)
+        #Diagonales amarillas
+    pygame.draw.polygon(screen, Bla_Roj, ([g1-1-(c3+c1),g1-1-(c3+c1)],[g1-1-(c2+c1),g1-1-(c3+c1+x1)],[g1-1-(c3+c1+x1),g1-1-(c3+c1+x1)]),0)  
+    pygame.draw.polygon(screen, Gris1, ([g1-1-(c3+c1),g1-1-(c3+c1)],[g1-1-(c2+c1),g1-1-(c3+c1+x1)],[g1-1-(c3+c1+x1),g1-1-(c3+c1+x1)]),c4_2*2)    
+    pygame.draw.polygon(screen, Bla_Roj, ([g1-1-(c3+c1),g1-1-(c3+c1)],[g1-1-(c2+c1+x1),g1-1-(c3+c1)],[g1-1-(c3+c1+x1),g1-1-(c3+c1+x1)]),0)  
+    pygame.draw.polygon(screen, Gris1, ([g1-1-(c3+c1),g1-1-(c3+c1)],[g1-1-(c2+c1+x1),g1-1-(c3+c1)],[g1-1-(c3+c1+x1),g1-1-(c3+c1+x1)]),c4_2*2)
+        #Diagonales verdes
+    pygame.draw.polygon(screen, Bla_Roj, ([c3+c1,g1-1-(c3+c1)],[c2+c1,g1-1-(c3+c1+x1)],[c3+c1+x1,g1-1-(c3+c1+x1)]),0)  
+    pygame.draw.polygon(screen, Gris1, ([c3+c1,g1-1-(c3+c1)],[c2+c1,g1-1-(c3+c1+x1)],[c3+c1+x1,g1-1-(c3+c1+x1)]),c4_2*2)    
+    pygame.draw.polygon(screen, Bla_Roj, ([c3+c1,g1-1-(c3+c1)],[c2+c1+x1,g1-1-(c3+c1)],[c3+c1+x1,g1-1-(c3+c1+x1)]),0)  
+    pygame.draw.polygon(screen, Gris1, ([c3+c1,g1-1-(c3+c1)],[c2+c1+x1,g1-1-(c3+c1)],[c3+c1+x1,g1-1-(c3+c1+x1)]),c4_2*2)
+
+
     #Casillas entrada rojo
-    for i in range(1,8):
+    for i in range(0,8):
         pygame.draw.rect(screen, Rojo1, (c3+c1+x1, c3+(i*c1/7), x1, c1/7),0,0,0,0,0)
         pygame.draw.rect(screen, Rojo2, (c3+c1+x1, c3+(i*c1/7), x1, c1/7),c4_2,0,0,0,0)    
     #Casillas entrada amarillo
-    for i in range(-1,6):
+    for i in range(-1,7):
         pygame.draw.rect(screen, Amarillo1, (c3+c1+x1, c3+(i*c1/7)+x+c1, x1, c1/7),0,0,0,0,0)
         pygame.draw.rect(screen,Amarillo2, (c3+c1+x1, c3+(i*c1/7)+x+c1, x1, c1/7),c4_2,0,0,0,0) 
     #Casillas entrada verde
-    for i in range(1,8):
+    for i in range(0,8):
         pygame.draw.rect(screen, Verde1, (c3+(i*c1/7), c3+c1+x1, c1/7, x1),0,0,0,0,0)
         pygame.draw.rect(screen, Verde2, (c3+(i*c1/7), c3+c1+x1, c1/7, x1),c4_2,0,0,0,0)   
     #Casillas entrada azul
-    for i in range(-1,6):
+    for i in range(-1,7):
         pygame.draw.rect(screen, Azul1, (c3+(i*c1/7)+x+c1, c3+c1+x1, c1/7, x1),0,0,0,0,0)
         pygame.draw.rect(screen, Azul2, (c3+(i*c1/7)+x+c1, c3+c1+x1, c1/7, x1),c4_2,0,0,0,0)   
 
