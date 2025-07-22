@@ -26,6 +26,9 @@ img_navrojo = pygame.image.load('Nave Roja.png')
 img_navazul = pygame.image.load('Nave Azul.png')
 img_navamarillo = pygame.image.load('Nave Amarilla.png')
 img_navverde = pygame.image.load('Nave Verde.png')
+img_star = pygame.image.load('Estrella.png')
+img_casa = pygame.image.load('Casa.png')
+img_estrellas = pygame.image.load('Estrellas.png')
 
 #tamaños
 g1 = 780 #Tamaño pestaña
@@ -37,10 +40,10 @@ c4 = 40 #Ancho borde casilla juego
 c4_1 = 6  #Borde tablero
 c4_2 = 5 #Borde casilla juego
 c5 = 10 #Ancho limite derecho zona tablero
-img1 = 180 #Tamaño foto de centro
+img1 = 190 #Tamaño foto de centro
 img2 = 160 #Tamaño fotos hogar
-f1 = 90 #Alto ficha
-f2 = 49 #Ancho ficha
+f1 = 55 #Alto ficha
+f2 = 30 #Ancho ficha
 
 running = True
 
@@ -49,6 +52,7 @@ clock = pygame.time.Clock()
 while running:
 
     screen.fill((9,2,42))
+    screen.blit(img_estrellas,(0,0),(0,0,g1,g1)) #Imagen fondo
 
     pygame.draw.line(screen, Blanco1, (g1+c5/2,0), (g1+c5/2,g1), c5)
 
@@ -128,30 +132,56 @@ while running:
         pygame.draw.rect(screen, Azul2, (c3+(i*c1/7)+x+c1, c3+c1+x1, c1/7, x1),c4_2,0,0,0,0) 
 
     #Casilla salida rojo
+    salida_roj = pygame.draw.rect(screen, Rojo1, (c3+c1, c3+(4*c1/7), x1, c1/7),0,0,0,0,0)
+    img_star2 = pygame.transform.scale(pygame.transform.rotate(img_star,90), (x1,c1/7))
+    img_star3 = pygame.transform.scale(img_star, (c1/7,x1))
+    img_casa2 = pygame.transform.scale(pygame.transform.rotate(img_casa,90), (x1,c1/7))
+    img_casa2_2 = pygame.transform.rotate(img_casa2,180)
+    img_casa3 = pygame.transform.scale(img_casa, (c1/7,x1))
+    img_casa3_2 = pygame.transform.rotate(img_casa3,180)
     pygame.draw.rect(screen, Rojo1, (c3+c1, c3+(4*c1/7), x1, c1/7),0,0,0,0,0)
     pygame.draw.rect(screen, Rojo2, (c3+c1, c3+(4*c1/7), x1, c1/7),c4_2,0,0,0,0)
+    screen.blit(img_casa2,salida_roj)
     #Casilla salida azul
+    salida_azu = pygame.draw.rect(screen, Azul1, (c3+(2*c1/7)+(x+c1),c3+c1, c1/7 ,x1),0,0,0,0,0)
     pygame.draw.rect(screen, Azul1, (c3+(2*c1/7)+(x+c1),c3+c1, c1/7 ,x1),0,0,0,0,0)
     pygame.draw.rect(screen, Azul2, (c3+(2*c1/7)+(x+c1), c3+c1, c1/7, x1),c4_2,0,0,0,0)
+    screen.blit(img_casa3,salida_azu)
     #Casilla salida verde
+    salida_ver = pygame.draw.rect(screen, Verde1, (c3+(4*c1/7),c3+c1+x2, c1/7 ,x1),0,0,0,0,0)
     pygame.draw.rect(screen, Verde1, (c3+(4*c1/7),c3+c1+x2, c1/7 ,x1),0,0,0,0,0)
     pygame.draw.rect(screen, Verde2, (c3+(4*c1/7), c3+c1+x2, c1/7, x1),c4_2,0,0,0,0)
+    screen.blit(img_casa3_2,salida_ver)
     #Casilla salida amarillo
+    salida_ama = pygame.draw.rect(screen, Amarillo1, (c3+c1+x2, g1-(c3+(4*c1/7)), x1, c1/7),0,0,0,0,0)
     pygame.draw.rect(screen, Amarillo1, (c3+c1+x2, g1-(c3+(4*c1/7)), x1, c1/7),0,0,0,0,0)
     pygame.draw.rect(screen, Amarillo2, (c3+c1+x2, g1-(c3+(4*c1/7)), x1, c1/7),c4_2,0,0,0,0)
+    screen.blit(img_casa2_2,salida_ama)
 
     #Casilla seguro rojo
+    seguro_roj = pygame.draw.rect(screen, Rojo1, (c3+(4*c1/7),c3+c1, c1/7 ,x1),0,0,0,0,0)
     pygame.draw.rect(screen, Rojo1, (c3+(4*c1/7),c3+c1, c1/7 ,x1),0,0,0,0,0)
     pygame.draw.rect(screen, Rojo2, (c3+(4*c1/7), c3+c1, c1/7, x1),c4_2,0,0,0,0)
+    screen.blit(img_star3,seguro_roj)
+    screen.blit(img_star2,(c3+c1+x1,c3))
     #Casilla seguro azul
+    seguro_azu = pygame.draw.rect(screen, Azul1, (c3+c1+x2, c3+(4*c1/7), x1, c1/7),0,0,0,0,0)
     pygame.draw.rect(screen, Azul1, (c3+c1+x2, c3+(4*c1/7), x1, c1/7),0,0,0,0,0)
     pygame.draw.rect(screen, Azul2, (c3+c1+x2, c3+(4*c1/7), x1, c1/7),c4_2,0,0,0,0)
-    #Casilla salida amarillo
+    screen.blit(img_star3, (g1-c2-c1/7,c3+c1+x1))
+    screen.blit(img_star2,seguro_azu)
+    #Casilla seguro amarillo
+    seguro_ama = pygame.draw.rect(screen, Amarillo1, (c3+(2*c1/7)+(x+c1),c3+c1+x2, c1/7 ,x1),0,0,0,0,0)
     pygame.draw.rect(screen, Amarillo1, (c3+(2*c1/7)+(x+c1),c3+c1+x2, c1/7 ,x1),0,0,0,0,0)
     pygame.draw.rect(screen, Amarillo2, (c3+(2*c1/7)+(x+c1), c3+c1+x2, c1/7, x1),c4_2,0,0,0,0)
-    #Casilla salida verde
+    screen.blit(img_star3,seguro_ama)
+    screen.blit(img_star2,(c3+c1+x1,g1-c3-c1/7))
+    #Casilla seguro verde
+    seguro_ver = pygame.draw.rect(screen, Verde1, (c3+c1, g1-(c3+(4*c1/7)), x1, c1/7),0,0,0,0,0)
     pygame.draw.rect(screen, Verde1, (c3+c1, g1-(c3+(4*c1/7)), x1, c1/7),0,0,0,0,0)
     pygame.draw.rect(screen, Verde2, (c3+c1, g1-(c3+(4*c1/7)), x1, c1/7),c4_2,0,0,0,0)
+    screen.blit(img_star3, (c3,c3+c1+x1))
+    screen.blit(img_star2,seguro_ver)
 
     #Circulo central
     img_galaxia2 = pygame.transform.scale(img_galaxia, (img1, img1))
@@ -168,22 +198,22 @@ while running:
     img_navazul2 = pygame.transform.scale(img_navazul, (f2, f1))
     img_navamarillo2 = pygame.transform.scale(img_navamarillo, (f2, f1))
     img_navverde2 = pygame.transform.scale(img_navverde, (f2, f1))
-    screen.blit(img_navrojo2,(c3+c1/3-f2/2,c3+c1/3-f1/2)) #Nave Roja
-    screen.blit(img_navrojo2,(c3+2*c1/3-f2/2,c3+c1/3-f1/2)) #Nave Roja
-    screen.blit(img_navrojo2,(c3+c1/3-f2/2,c3+2*c1/3-f1/2)) #Nave Roja
-    screen.blit(img_navrojo2,(c3+2*c1/3-f2/2,c3+2*c1/3-f1/2)) #Nave Roja
-    screen.blit(img_navazul2,(c1+x+c3+c1/3-f2/2,c3+c1/3-f1/2)) #Nave Azul
-    screen.blit(img_navazul2,(c1+x+c3+2*c1/3-f2/2,c3+c1/3-f1/2)) #Nave Azul
-    screen.blit(img_navazul2,(c1+x+c3+c1/3-f2/2,c3+2*c1/3-f1/2)) #Nave Azul
-    screen.blit(img_navazul2,(c1+x+c3+2*c1/3-f2/2,c3+2*c1/3-f1/2)) #Nave Azul
-    screen.blit(img_navamarillo2,(c1+x+c3+c1/3-f2/2,c1+x+c3+c1/3-f1/2)) #Nave Amarilla 
-    screen.blit(img_navamarillo2,(c1+x+c3+2*c1/3-f2/2,c1+x+c3+c1/3-f1/2)) #Nave Amarilla
-    screen.blit(img_navamarillo2,(c1+x+c3+c1/3-f2/2,c1+x+c3+2*c1/3-f1/2)) #Nave Amarilla
-    screen.blit(img_navamarillo2,(c1+x+c3+2*c1/3-f2/2,c1+x+c3+2*c1/3-f1/2)) #Nave Amarilla
-    screen.blit(img_navverde2,(c3+c1/3-f2/2,c1+x+c3+c1/3-f1/2)) #Nave Verde
-    screen.blit(img_navverde2,(c3+2*c1/3-f2/2,c1+x+c3+c1/3-f1/2)) #Nave Verde
-    screen.blit(img_navverde2,(c3+c1/3-f2/2,c1+x+c3+2*c1/3-f1/2)) #Nave Verde
-    screen.blit(img_navverde2,(c3+2*c1/3-f2/2,c1+x+c3+2*c1/3-f1/2)) #Nave Verde                              
+    screen.blit(img_navrojo2,(c3+2*c1/5-f2/2,c3+2*c1/5-f1/2)) #Nave Roja
+    screen.blit(img_navrojo2,(c3+3*c1/5-f2/2,c3+2*c1/5-f1/2)) #Nave Roja
+    screen.blit(img_navrojo2,(c3+2*c1/5-f2/2,c3+3*c1/5-f1/2)) #Nave Roja
+    screen.blit(img_navrojo2,(c3+3*c1/5-f2/2,c3+3*c1/5-f1/2)) #Nave Roja
+    screen.blit(img_navazul2,(c1+x+c3+2*c1/5-f2/2,c3+2*c1/5-f1/2)) #Nave Azul
+    screen.blit(img_navazul2,(c1+x+c3+3*c1/5-f2/2,c3+2*c1/5-f1/2)) #Nave Azul
+    screen.blit(img_navazul2,(c1+x+c3+2*c1/5-f2/2,c3+3*c1/5-f1/2)) #Nave Azul
+    screen.blit(img_navazul2,(c1+x+c3+3*c1/5-f2/2,c3+3*c1/5-f1/2)) #Nave Azul
+    screen.blit(img_navamarillo2,(c1+x+c3+2*c1/5-f2/2,c1+x+c3+2*c1/5-f1/2)) #Nave Amarilla 
+    screen.blit(img_navamarillo2,(c1+x+c3+3*c1/5-f2/2,c1+x+c3+2*c1/5-f1/2)) #Nave Amarilla
+    screen.blit(img_navamarillo2,(c1+x+c3+2*c1/5-f2/2,c1+x+c3+3*c1/5-f1/2)) #Nave Amarilla
+    screen.blit(img_navamarillo2,(c1+x+c3+3*c1/5-f2/2,c1+x+c3+3*c1/5-f1/2)) #Nave Amarilla
+    screen.blit(img_navverde2,(c3+2*c1/5-f2/2,c1+x+c3+2*c1/5-f1/2)) #Nave Verde
+    screen.blit(img_navverde2,(c3+3*c1/5-f2/2,c1+x+c3+2*c1/5-f1/2)) #Nave Verde
+    screen.blit(img_navverde2,(c3+2*c1/5-f2/2,c1+x+c3+3*c1/5-f1/2)) #Nave Verde
+    screen.blit(img_navverde2,(c3+3*c1/5-f2/2,c1+x+c3+3*c1/5-f1/2)) #Nave Verde                              
     
     pygame.display.flip()
     clock.tick(60)
