@@ -14,6 +14,13 @@ Zonas_Seguras = [5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63]
 
 # Puntos de inicio para cada color
 PUNTOS_INICIO = {"Rojo": 0, "Azul": 17, "Amarillo": 34, "Verde": 51}
+jugadores_global = []
+
+def obtener_jugador_por_color(color):
+    for jugador in jugadores_global:
+        if jugador.color == color:
+            return jugador
+    return None
 
 
 class Ficha:
@@ -66,7 +73,9 @@ class Ficha:
     def en_meta(self):
         return self.posicion == CAMINO_META[self.color][-1]
 
+    
 
+    
 class Jugador:
     def __init__(self, color):
         self.color = color
@@ -170,6 +179,9 @@ def turno_jugador(jugador, jugadores, pares_seguidos, ultima_ficha_movida, modo_
 
 
 def main():
+    global jugadores_global
+    jugadores = [Jugador("Rojo"), Jugador("Azul"), Jugador("Amarillo"), Jugador("Verde")]
+    jugadores_global = jugadores
     jugadores = [Jugador("Rojo"), Jugador("Azul"), Jugador("Amarillo"), Jugador("Verde")]
     turno = 0
     pares_seguidos = {jug.color: 0 for jug in jugadores}
