@@ -11,6 +11,8 @@ casillas = [[] for _ in range(92)]
 
 Zonas_Seguras = [5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63]
 
+
+# Puntos de inicio para cada color
 PUNTOS_INICIO = {"Rojo": 0, "Azul": 17, "Amarillo": 34, "Verde": 51}
 
 
@@ -48,10 +50,18 @@ class Ficha:
             casillas[self.posicion].append(self)
             print(f"{self.color} avanzó a la casilla {self.posicion}.")
 
-        if self.en_meta():
-            print(f"¡{self.color} llegó a la meta! Avanza 10 pasos extra.")
-            if pasos != 10:
-                self.mover(10)
+            if self.en_meta():
+                print(f"¡{self.color} llegó a la meta! Avanza 10 pasos extra.")
+
+                if pasos != 10:
+                    jugador = obtener_jugador_por_color(self.color)
+                    # Busca otra ficha que no esté en meta ni en la cárcel
+                    for otra_ficha in jugador.fichas:
+                        if otra_ficha != self and otra_ficha.posicion != -1 and not otra_ficha.en_meta():
+                            print(f"Bonus: {self.color} mueve 10 pasos extra con otra ficha.")
+                            otra_ficha.mover(10)
+                            break
+
 
     def en_meta(self):
         return self.posicion == CAMINO_META[self.color][-1]
@@ -154,6 +164,7 @@ def turno_jugador(jugador, jugadores, pares_seguidos, ultima_ficha_movida, modo_
             casillas[ficha_penalizada.posicion].remove(ficha_penalizada)
             ficha_penalizada.posicion = -1
         pares_seguidos[jugador.color] = 0
+        return False 
 
     return dado % 2 == 0
 
@@ -182,3 +193,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+#
