@@ -1,14 +1,19 @@
 import random
 
-# Tablero
-casillas = [[] for _ in range(68)]
+CAMINO_META = {
+    "Rojo": [68, 69, 70, 71, 72, 73],      
+    "Azul": [74, 75, 76, 77, 78, 79],
+    "Amarillo": [80, 81, 82, 83, 84, 85],
+    "Verde": [86, 87, 88, 89, 90, 91]
+}
+
+casillas = [[] for _ in range(92)]
 
 Zonas_Seguras = [5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63]
 
-# Nuevo: puntos de inicio por color
 PUNTOS_INICIO = {"Rojo": 0, "Azul": 17, "Amarillo": 34, "Verde": 51}
 
-# Clases principales
+
 class Ficha:
     def __init__(self, color, punto_inicio):
         self.color = color
@@ -28,14 +33,14 @@ class Ficha:
             return
         else:
             nueva_posicion = self.posicion + pasos
-            if nueva_posicion >= 68:
-                print(f"{self.color} no puede moverse porque pasaría la meta.")
-                return
 
-            # Verificar bloqueos en el camino
-            for paso in range(self.posicion + 1, nueva_posicion + 1):
-                if verificar_bloqueo(paso):
-                    print(f"{self.color} no puede avanzar porque hay un bloqueo en la casilla {paso}.")
+            if nueva_posicion < CAMINO_META[self.color][0]:
+                pass
+            else:
+                pasos_restantes = nueva_posicion - CAMINO_META[self.color][0]
+                nueva_posicion = CAMINO_META[self.color][0] + pasos_restantes
+                if nueva_posicion > CAMINO_META[self.color][-1]:
+                    print(f"{self.color} no puede moverse porque pasaría la meta")
                     return
 
             casillas[self.posicion].remove(self)
@@ -45,10 +50,11 @@ class Ficha:
 
         if self.en_meta():
             print(f"¡{self.color} llegó a la meta! Avanza 10 pasos extra.")
-            self.mover(10)
+            if pasos != 10:
+                self.mover(10)
 
     def en_meta(self):
-        return self.posicion == 67
+        return self.posicion == CAMINO_META[self.color][-1]
 
 
 class Jugador:
@@ -125,7 +131,18 @@ def turno_jugador(jugador, jugadores, pares_seguidos, ultima_ficha_movida, modo_
     for fic in opciones:
         print(f"{fic+1}: Ficha {fic+1}")
 
-    eleccion = int(input("Ficha a mover: ")) - 1
+    # Validación corregida al elegir ficha
+    while True:
+        entrada = input("Ficha a mover: ").strip()
+        if entrada.isdigit():
+            eleccion = int(entrada) - 1
+            if eleccion in opciones:
+                break
+            else:
+                print("Número fuera de las opciones disponibles. Intenta de nuevo.")
+        else:
+            print("Entrada no válida. Debes ingresar un número.")
+
     jugador.fichas[eleccion].mover(dado)
     ultima_ficha_movida[jugador.color] = jugador.fichas[eleccion]
     jugador.capturar(jugador.fichas[eleccion], jugadores)
@@ -165,15 +182,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    # Estado actual
-    # Se añadió la lista de casillas para definir en qué casilla va cada ficha
-    # 1. Solo se saca ficha si sale 5
-    # 2. Las fichas pueden ser capturadas
-    # 3. Deberían respetarse las zonas seguras (no comprobado)
-    # 4. Bloqueos en el tablero (no comprobado)
-    # 5. Condiciones de victoria
-    # 6. Se añadió el bonus de 20 pasos en la línea 68
-    # 7. Se añade bonus 10 pasos dentro de def mover(self, pasos) para llegada a la meta
-    # 8. Se añade penalización por 3 pares seguidos
-    # 9. Se implementa modo desarrollador con control del valor del dado ingresado
